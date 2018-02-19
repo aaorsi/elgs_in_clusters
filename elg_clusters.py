@@ -200,6 +200,22 @@ d1 = load_catalogues()
 tcenter = {'ra':t_info[:,1], 'dec':t_info[:,2]}
 d2 = load_catalogues(centralobj=tcenter, centralobjtype='')
 
+import pymangle
+
+tiles = jplus.datasets.fetch_jplus_tile_list(upad=False,overwrite=True)
+stars = jplus.datasets.fetch_jplus_objects_to_mask(overwrite=True)
+mask  = jplus.mangle.Mask(tiles,stars, overwrite=True)
+ran = mask.create_random(3e4)
+
+elgs = d1['elgs']
+good = mask.contains(elgs['coords'])
+
+d3 = {}
+d3['elgs'] = ran['coords']
+
+
+import ipdb ; ipdb.set_trace()
+
 g1 = get_density(d1)
 g2 = get_density(d2)
 
